@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusCare | Complaint Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+    <a class="brand" href="#" onclick="showPage('dashboard')">
+        🏫 Campus<span>Care</span>
+    </a>
+    <nav>
+        <button id="nav-dashboard" class="active"
+            onclick="showPage('dashboard')">Dashboard</button>
+        <button id="nav-report"
+            onclick="showPage('report')">Report Issue</button>
+        <button id="nav-track"
+            onclick="showPage('track')">Track Complaints</button>
+        <button id="nav-admin"
+            onclick="showPage('admin')">Admin</button>
+    </nav>
+</header>
+
+<main class="container">
+
+    <!-- DASHBOARD -->
+    <section id="page-dashboard" class="page active">
+        <div class="hero">
+            <div>
+                <p class="eyebrow">A better campus starts here</p>
+                <h1>See an issue?<br>Let's fix it.</h1>
+                <p>Report campus maintenance problems and
+                   follow their progress easily.</p>
+                <button class="primary"
+                    onclick="showPage('report')">
+                    Report a Complaint →
+                </button>
+            </div>
+            <div class="hero-icon">🛠️</div>
+        </div>
+
+        <div class="stats" id="dashboard-stats"></div>
+
+        <h2>How CampusCare Works</h2>
+        <div class="steps">
+            <article class="step-card">
+                <div class="step-icon">📝</div>
+                <h3>1. Report</h3>
+                <p>Submit your campus maintenance complaint.</p>
+            </article>
+            <article class="step-card">
+                <div class="step-icon">🔍</div>
+                <h3>2. Track</h3>
+                <p>Track your complaint using its unique ID.</p>
+            </article>
+            <article class="step-card">
+                <div class="step-icon">✅</div>
+                <h3>3. Resolve</h3>
+                <p>Maintenance staff updates the complaint status.</p>
+            </article>
+        </div>
+
+        <div class="section-heading">
+            <h2>Recent Complaints</h2>
+            <button class="text-btn" onclick="showPage('track')">
+                View All →
+            </button>
+        </div>
+        <div id="recent-list" class="panel"></div>
+    </section>
+
+    <!-- REPORT COMPLAINT -->
+    <section id="page-report" class="page">
+        <h2>Report a Campus Issue</h2>
+        <p class="subtitle">Fill in the details to submit your complaint.</p>
+
+        <form id="complaint-form" class="panel">
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Your Name *</label>
+                    <input id="student-name" required
+                        placeholder="Enter your name">
+                </div>
+
+                <div class="field">
+                    <label>Student ID *</label>
+                    <input id="student-id" required
+                        placeholder="Enter register number">
+                </div>
+
+                <div class="field">
+                    <label>Complaint Category *</label>
+                    <select id="category" required>
+                        <option value="">Select category</option>
+                        <option>Electrical</option>
+                        <option>Plumbing</option>
+                        <option>Classroom Facilities</option>
+                        <option>Cleanliness</option>
+                        <option>Internet / Wi-Fi</option>
+                        <option>Furniture</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Priority *</label>
+                    <select id="priority" required>
+                        <option value="">Select priority</option>
+                        <option>Low</option>
+                        <option>Medium</option>
+                        <option>High</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Building / Block *</label>
+                    <input id="building" required
+                        placeholder="Example: Main Block">
+                </div>
+
+                <div class="field">
+                    <label>Room / Location *</label>
+                    <input id="room" required
+                        placeholder="Example: Room 204">
+                </div>
+
+                <div class="field full">
+                    <label>Complaint Title *</label>
+                    <input id="title" required
+                        placeholder="Example: Broken classroom fan">
+                </div>
+
+                <div class="field full">
+                    <label>Description *</label>
+                    <textarea id="description" rows="5"
+                        required placeholder="Describe the issue..."></textarea>
+                </div>
+
+            </div>
+
+            <button type="submit" class="green-btn">
+                Submit Complaint
+            </button>
+            <p class="hint">Your complaint will be saved in this browser.</p>
+        </form>
+    </section>
+
+    <!-- TRACK COMPLAINTS -->
+    <section id="page-track" class="page">
+        <h2>Track Complaints</h2>
+        <p class="subtitle">
+            Search using complaint ID, student name or student ID.
+        </p>
+
+        <div class="track-tools">
+            <input id="track-search" class="search"
+                placeholder="Search complaints..."
+                oninput="renderComplaints()">
+
+            <select id="status-filter" onchange="renderComplaints()">
+                <option value="All">All Statuses</option>
+                <option>Submitted</option>
+                <option>In Progress</option>
+                <option>Resolved</option>
+            </select>
+        </div>
+
+        <div id="complaint-list"></div>
+    </section>
+
+    <!-- ADMIN DASHBOARD -->
+    <section id="page-admin" class="page">
+        <h2>Admin Dashboard</h2>
+        <p class="subtitle">
+            View complaints and update their status.
+        </p>
+
+        <div id="admin-stats" class="stats"></div>
+
+        <div class="panel">
+            <h3>Manage Complaints</h3>
+            <div id="admin-list"></div>
+        </div>
+
+        <p class="hint">
+            Demo version: This page does not have staff authentication.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    © 2026 CampusCare | Campus Complaint & Maintenance Management System
+</footer>
+
+<!-- CHATBOT BUTTON -->
+<button id="chat-launcher" class="chat-launcher">
+    💬 Ask CampusCare
+</button>
+
+<!-- CHATBOT WINDOW -->
+<div id="chat-window" class="chat-window">
+    <div class="chat-header">
+        <div>
+            <strong>🤖 CampusCare Assistant</strong>
+            <small>Online · Ready to help</small>
+        </div>
+        <button id="chat-close">×</button>
+    </div>
+
+    <div id="chat-messages" class="chat-messages">
+        <div class="message bot-message">
+            Hi! 👋 Welcome to CampusCare.
+            Ask me how to report or track a complaint!
+        </div>
+    </div>
+
+    <div class="quick-questions">
+        <button data-question="How do I report an issue?">
+            How to report?
+        </button>
+        <button data-question="How can I track my complaint?">
+            Track complaint
+        </button>
+        <button data-question="What do statuses mean?">
+            Status meanings
+        </button>
+    </div>
+
+    <form id="chat-form" class="chat-input-area">
+        <input id="chat-input" placeholder="Type your question..."
+            autocomplete="off" required>
+        <button type="submit">➤</button>
+    </form>
+
+    <small class="chat-note">CampusCare FAQ Assistant</small>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="script.js"></script>
+<script src="chatbot.js"></script>
+
+</body>
+</html>
